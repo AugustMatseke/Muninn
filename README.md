@@ -30,6 +30,7 @@ Contributors names and contact info
 August Matseke
 * [Uni mail](augustma@chalmers.se)
 * [Personal](august.milo123@gmail.com)
+
 Fanny Hessel
 * [Uni mail](fannyhes@chalmers.se)
 
