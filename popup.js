@@ -1,27 +1,41 @@
-let SPOOF_RADIUS_METERS = 100000;
-// TODO: Replace this with UI input
-
-
 function distortCoords(lat, lon, radiusMeters) {
-  //NB, 1 deg = 111 111 meters 
-  const r = radiusMeters / 111111; // degrees per meter
-  const angle = 2 * Math.PI * Math.random();
-  const dx = r * Math.cos(angle);
-  const dy = r * Math.sin(angle);
+  let r = radiusMeters / 111111; //deg per meter, roughly 111,111 m/deg
+  let angle = 2 * Math.PI * Math.random(); //Some random angle 
+  let dx = r * Math.cos(angle); 
+  let dy = r * Math.sin(angle);
   return [lat + dx, lon + dy];
 }
 
+function getSpoofRadius() { //Fetches from input in popup.html
+  let rad = document.getElementById("radius");
+  return parseInt(rad.value, 10);
+}
 
-navigator.geolocation.getCurrentPosition(
-  function success(position) {
-    const { latitude, longitude, _ } = position.coords;
-    const [spoofLat, spoofLon] = distortCoords(latitude, longitude, SPOOF_RADIUS_METERS);
+function displayLocation() {
+  let radius = getSpoofRadius(); //TODO, maybe make this a slider?
 
-    document.getElementById("output").textContent =
-      `Original:\n  Lat: ${latitude}\n  Lon: ${longitude}\n\n` +
-      `Spoofed (~${SPOOF_RADIUS_METERS}m radius):\n  Lat: ${spoofLat.toFixed(6)}\n  Lon: ${spoofLon.toFixed(6)}`;
-  },
-  function error(err) {
-    document.getElementById("output").textContent = `Error: ${err.message}`;
-  }
-);
+  navigator.geolocation.getCurrentPosition(
+    function success(position) {//API needs these werid success/error functions
+
+      let {latitude, longitude} = position.coords;
+      let {spoofLat, spoofLon} = [latitude, longitude];
+
+      if (radius > 0) {
+        [spoofLat, spoofLon] = distortCoords(latitude, longitude, radius);
+      }
+        
+      //"output" overwrites the fetching... text from popup.html 
+      document.getElementById("output").textContent = 
+        `Original:\n  Lat: ${latitude}\n  Lon: ${longitude}\n\n` +
+        `Spoofed (~${radius/1000}km):\n  Lat: ${spoofLat.toFixed(6)}\n  Lon: ${spoofLon.toFixed(6)}`;
+    },
+    function error(err) {
+      document.getElementById("output").textContent = `Error: ${err.message}`;
+    }
+    
+  );
+}
+
+//need listeners since user can change radius during run
+document.getElementById("radius").addEventListener("change", displayLocation);
+window.addEventListener("DOMContentLoaded", displayLocation);
