@@ -19,31 +19,24 @@ The goal of Muninn is to increase user privacy when browsing the web to a level 
 N/A atm
 
 
-### Executing program
-
-* How to run the program
-* Step-by-step bullets
-```
-code blocks for commands
-```
-
 ## Help
 
-Any advise for common problems or issues.
-```
-command to run if program contains helper info
-```
+TODO
 
 ## Authors
 
 Contributors names and contact info
 
 August Matseke
-
+* [Uni mail](augustma@chalmers.se)
+* [Personal](august.milo123@gmail.com)
 Fanny Hessel
+* [Uni mail](fannyhes@chalmers.se)
 
 ## Version History
 
+* 0.2
+  * Changes information inside extension, but does not yet send it to the website
 * 0.1
   * Initial Release, can basically only return your *actual* location info
 
