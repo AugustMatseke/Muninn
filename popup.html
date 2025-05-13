@@ -1,23 +1,11 @@
 <!DOCTYPE html>
 <html>
-  <head><title>Muninn</title></head>
+  <head>
+    <title>Muninn</title>
+  </head>
   <body>
-    <h3>Select Accuracy</h3>
-    <select id="accuracy">
-      <option value="exact">Exact</option>
-      <option value="radius">1 km Radius</option>
-      <option value="city">City Level</option>
-      <option value="country">Country Level</option>
-    </select>
-    <button id="save">Save</button>
-    <script>
-      const select = document.getElementById("accuracy");
-      chrome.storage.sync.get(["accuracy"], (res) => {
-        if (res.accuracy) select.value = res.accuracy;
-      });
-      document.getElementById("save").onclick = () => {
-        chrome.storage.sync.set({ accuracy: select.value });
-      };
-    </script>
+    <h3>Your Location</h3>
+    <pre id="output">Fetching...</pre>
+    <script src="popup.js"></script>
   </body>
 </html>
