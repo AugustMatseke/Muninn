@@ -23,6 +23,10 @@ function displayLocation() {
       if (radius > 0) {
         [spoofLat, spoofLon] = distortCoords(latitude, longitude, radius);
       }
+      else { //TODO: Not sure this works as intended
+        spoofLat = latitude;
+        spoofLon = longitude;
+      }
         
       //"output" overwrites the fetching... text from popup.html 
       document.getElementById("output").textContent = 
@@ -35,6 +39,22 @@ function displayLocation() {
     
   );
 }
+
+// Alternative, taken from https://github.com/GoogleChrome/chrome-extensions-samples/blob/main/functional-samples/cookbook.geolocation-popup/popup.js
+// navigator.geolocation.getCurrentPosition(
+//   (loc) => {
+//     const { coords } = loc;
+//     let { latitude, longitude } = coords;
+//     latitude = generateDMS(latitude, true);
+//     longitude = generateDMS(longitude);
+
+//     header.innerText = `position: ${latitude}, ${longitude}`;
+//   },
+//   (err) => {
+//     header.innerText = 'error (check console)';
+//     console.error(err);
+//   }
+// );
 
 //need listeners since user can change radius during run
 document.getElementById("radius").addEventListener("change", displayLocation);

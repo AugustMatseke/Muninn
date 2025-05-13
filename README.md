@@ -38,6 +38,7 @@ Fanny Hessel
 * [Uni mail](fannyhes@chalmers.se)
 
 ## Version History
+
 * 0.3
   * Users can now select radius distortions with proper changes in UI
 * 0.2
