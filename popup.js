@@ -1,61 +1,30 @@
-function distortCoords(lat, lon, radiusMeters) {
-  let r = radiusMeters / 111111; //deg per meter, roughly 111,111 m/deg
-  let angle = 2 * Math.PI * Math.random(); //Some random angle 
-  let dx = r * Math.cos(angle); 
-  let dy = r * Math.sin(angle);
-  return [lat + dx, lon + dy];
-}
+document.addEventListener("DOMContentLoaded", () => {
+  const btnSpoof = document.getElementById("spoof");
+  const btnReset = document.getElementById("reset");
 
-function getSpoofRadius() { //Fetches from input in popup.html
-  let rad = document.getElementById("radius");
-  return parseInt(rad.value, 10);
-}
+  async function getActiveTabId() {
+    const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+    return tab.id;
+  }
 
-function displayLocation() {
-  let radius = getSpoofRadius(); //TODO, maybe make this a slider?
+  btnSpoof.addEventListener("click", async () => {
+    const tabId = await getActiveTabId();
+    // TODO, change lat,long based on input
+    const latitude  = parseFloat(document.getElementById("lat").value);
+    const longitude = parseFloat(document.getElementById("lon").value);
+    const accuracy  = parseFloat(document.getElementById("acc").value);
 
-  navigator.geolocation.getCurrentPosition(
-    function success(position) {//API needs these werid success/error functions
+    chrome.runtime.sendMessage({
+      action:  "spoof",
+      tabId,
+      latitude,
+      longitude,
+      accuracy
+    });
+  });
 
-      let {latitude, longitude} = position.coords;
-      let {spoofLat, spoofLon} = [latitude, longitude];
-
-      if (radius > 0) {
-        [spoofLat, spoofLon] = distortCoords(latitude, longitude, radius);
-      }
-      else { //TODO: Not sure this works as intended
-        spoofLat = latitude;
-        spoofLon = longitude;
-      }
-        
-      //"output" overwrites the fetching... text from popup.html 
-      document.getElementById("output").textContent = 
-        `Original:\n  Lat: ${latitude}\n  Lon: ${longitude}\n\n` +
-        `Spoofed (~${radius/1000}km):\n  Lat: ${spoofLat.toFixed(6)}\n  Lon: ${spoofLon.toFixed(6)}`;
-    },
-    function error(err) {
-      document.getElementById("output").textContent = `Error: ${err.message}`;
-    }
-    
-  );
-}
-
-// Alternative, taken from https://github.com/GoogleChrome/chrome-extensions-samples/blob/main/functional-samples/cookbook.geolocation-popup/popup.js
-// navigator.geolocation.getCurrentPosition(
-//   (loc) => {
-//     const { coords } = loc;
-//     let { latitude, longitude } = coords;
-//     latitude = generateDMS(latitude, true);
-//     longitude = generateDMS(longitude);
-
-//     header.innerText = `position: ${latitude}, ${longitude}`;
-//   },
-//   (err) => {
-//     header.innerText = 'error (check console)';
-//     console.error(err);
-//   }
-// );
-
-//need listeners since user can change radius during run
-document.getElementById("radius").addEventListener("change", displayLocation);
-window.addEventListener("DOMContentLoaded", displayLocation);
+  btnReset.addEventListener("click", async () => {
+    const tabId = await getActiveTabId();
+    chrome.runtime.sendMessage({ action: "reset", tabId });
+  });
+});

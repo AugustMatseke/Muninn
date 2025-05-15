@@ -1,4 +1,22 @@
-// Minimal for now. Required for manifest v3
-chrome.runtime.onInstalled.addListener(() => {
-  chrome.storage.sync.set({ accuracy: "exact" });
+chrome.runtime.onMessage.addListener((message, sender) => {
+  const { action, tabId, latitude, longitude, accuracy } = message;
+
+  if (action === "spoof") {
+    chrome.debugger.attach({ tabId }, "1.3", () => {
+      chrome.debugger.sendCommand(
+        { tabId },
+        "Emulation.setGeolocationOverride",
+        { latitude, longitude, accuracy }
+      );
+    });
+  }
+
+  if (action === "reset") {
+    chrome.debugger.sendCommand(
+      { tabId },
+      "Emulation.clearGeolocationOverride",
+      {},
+      () => chrome.debugger.detach({ tabId })
+    );
+  }
 });

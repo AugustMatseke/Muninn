@@ -1,15 +1,24 @@
 {
   "name": "Muninn",
-  "version": "0.3",
+  "version": "1.0",
   "manifest_version": 3,
-  "permissions": ["storage", "scripting", "geolocation"],
-  "action": {
-    "default_popup": "popup.html",
-    "default_icon": "logo.png"
-  },
-    "icons": { 
-    "16": "logo.png",
-    "48": "logo.png",
+  "description": "Spoof geolocation via Chrome Debugger API",
+  "permissions": [
+    "debugger",
+    "tabs",
+    "activeTab",
+    "storage"
+  ],
+  "icons": {
+    "16": "logo.png" ,
+    "48": "logo.png" ,
     "128": "logo.png"
+  },
+  "host_permissions": ["<all_urls>"],
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "background": {
+    "service_worker": "background.js"
   }
 }
