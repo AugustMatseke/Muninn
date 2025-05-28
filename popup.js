@@ -9,14 +9,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
   btnSpoof.addEventListener("click", async () => {
     const tabId = await getActiveTabId();
-    // TODO, change lat,long based on input
     const latitude  = parseFloat(document.getElementById("lat").value);
     const longitude = parseFloat(document.getElementById("lon").value);
     const accuracy  = parseFloat(document.getElementById("acc").value);
 
     chrome.runtime.sendMessage({
       action:  "spoof",
-      tabId,
+      tabId,  
       latitude,
       longitude,
       accuracy

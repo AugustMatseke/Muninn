@@ -6,8 +6,8 @@
   </head>
   <body>
     <h3>Muninn</h3>
-    <label>Latitude:  <input id="lat" type="number" step="any" value="57.7"></label><br>
-    <label>Longitude: <input id="lon" type="number" step="any" value="11.9"></label><br>
+    <label>Latitude:  <input id="lat" type="number" min="-180" max="180" value="57.7"></label><br>
+    <label>Longitude: <input id="lon" type="number" min="-180" max="180" value="11.9"></label><br>
     <label>Accuracy:  <input id="acc" type="number" value="20"></label><br><br>
     <button id="spoof">Spoof Location</button>
     <button id="reset">Reset to Real</button>

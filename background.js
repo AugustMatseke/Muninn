@@ -1,4 +1,4 @@
-chrome.runtime.onMessage.addListener((message, sender) => {
+chrome.runtime.onMessage.addListener((message, _) => {
   const { action, tabId, latitude, longitude, accuracy } = message;
 
   if (action === "spoof") {
