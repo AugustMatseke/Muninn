@@ -55,3 +55,7 @@ This program comes with NO WARRANTY AND NO GUARANTEES. Use at own risk
 Inspiration, code snippets, etc.
 
 * [awesome-readme](https://gist.github.com/DomPizzie/7a5ff55ffa9081f2de27c315f5018afc)
+
+## Disclaimer
+
+This program overrides only your geolocation data. Some websites might still collect location data through other sources, e.g. network connections, or IP addresses. Muninn doesn't cover these location data flows (yet).
