@@ -7,8 +7,7 @@
     "debugger",
     "tabs",
     "activeTab",
-    "storage",
-    "Geolocation"
+    "storage"
   ],
   "icons": {
     "16": "logo.png" ,
